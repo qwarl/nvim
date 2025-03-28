@@ -16,8 +16,8 @@ return {
 				yaml = { "prettier" },
 				markdown = { "prettier" },
 				lua = { "stylua" },
-        toml = {"taplo"},
-        sh = {"beautysh"},
+				toml = { "taplo" },
+				sh = { "shfmt" },
 			},
 			format_on_save = function(bufnr)
 				-- Check if global or buffer-local variable enables autoformat

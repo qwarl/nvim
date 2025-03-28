@@ -132,6 +132,7 @@ return {
 			bashls = {
 				filetypes = { "sh", "zsh" },
 			},
+			texlab = {},
 			lua_ls = {
 				settings = {
 					Lua = {
@@ -149,7 +150,9 @@ return {
 			cssls = {},
 			tailwindcss = {},
 			emmet_ls = {},
+			-- gopls = {},
 			pyright = {},
+			rust_analyzer = {},
 			vtsls = {
 				settings = {
 					typescript = {
@@ -180,7 +183,9 @@ return {
 					},
 				},
 			},
+			-- sqls = {},
 			taplo = {},
+			yamlls = {},
 		}
 
 		if is_path.exists_in_config("hypr") then
@@ -192,7 +197,6 @@ return {
 		local ensure_installed = vim.tbl_keys(servers or {})
 		vim.list_extend(ensure_installed, {
 			-- linter and formatter
-			"beautysh",
 			"black",
 			"eslint_d",
 			"markdownlint-cli2",
@@ -200,6 +204,7 @@ return {
 			"prettier",
 			"pylint",
 			"shellcheck",
+			"shfmt",
 			"stylua", -- Used to format Lua code
 		})
 		require("mason-tool-installer").setup({ ensure_installed = ensure_installed })

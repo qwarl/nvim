@@ -59,6 +59,16 @@ return {
 				{ section = "startup" },
 			},
 		},
+		image = {},
+		statuscolumn = {
+			folds = {
+				open = true,
+				git_hl = true,
+			},
+			git = {
+				patterns = { "MiniDiffSign" },
+			},
+		},
 	},
 	init = function()
 		vim.api.nvim_create_autocmd("User", {

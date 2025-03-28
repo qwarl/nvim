@@ -68,3 +68,16 @@ vim.api.nvim_create_autocmd('BufWritePost', {
     end
   end,
 })
+
+vim.api.nvim_create_autocmd({"BufRead", "BufNewFile"}, {
+  group = vim.api.nvim_create_augroup("close_mason_log_with_q", { clear = true }),
+  pattern = "mason.log",
+  callback = function(event)
+    vim.bo[event.buf].buflisted = false
+    vim.keymap.set("n", "q", "<cmd>close<cr>", {
+      buffer = event.buf,
+      silent = true,
+      desc = "Quit mason.log buffer",
+    })
+  end,
+})

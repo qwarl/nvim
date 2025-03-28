@@ -1,7 +1,6 @@
 local check = require("util")
 
-if not check.is_win() then
-	return {
-		"lambdalisue/vim-suda",
-	}
-end
+return {
+	"lambdalisue/vim-suda",
+	enabled = not check.is_win(),
+}
