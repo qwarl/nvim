@@ -1,7 +1,8 @@
 return {
 	"nvim-telescope/telescope.nvim",
 	branch = "0.1.x",
-  cmd = "Telescope",
+	enabled = false,
+	cmd = "Telescope",
 	dependencies = {
 		{ "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
 		{ "nvim-telescope/telescope-ui-select.nvim" },
