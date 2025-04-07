@@ -1,70 +1,85 @@
 return {
 	"ThePrimeagen/harpoon",
 	branch = "harpoon2",
-  enabled = false,
 	dependencies = { "nvim-lua/plenary.nvim" },
 	event = "VeryLazy",
-	keys = function()
+	config = function()
 		local harpoon = require("harpoon")
 		harpoon:setup({})
-		local conf = require("telescope.config").values
-		local function toggle_telescope(harpoon_files)
+
+		-- Function to generate items for Snacks.picker
+		local function harpoon_snacks_picker()
 			local file_paths = {}
-			for _, item in ipairs(harpoon_files.items) do
-				table.insert(file_paths, item.value)
-			end
-			require("telescope.pickers")
-				.new({}, {
-					prompt_title = "Harpoon",
-					finder = require("telescope.finders").new_table({
-						results = file_paths,
-					}),
-					previewer = conf.file_previewer({}),
-					sorter = conf.generic_sorter({}),
+			for idx, item in ipairs(harpoon:list().items) do
+				table.insert(file_paths, {
+					text = item.value, -- Display text
+					file = item.value, -- File path for preview and selection
+					idx = idx, -- Store index for actions like deletion
 				})
-				:find()
+			end
+			require("snacks").picker({
+				finder = function()
+					return file_paths
+				end,
+				win = {
+					list = {
+						keys = {
+							["dd"] = { "harpoon_delete", mode = { "n", "x" } },
+						},
+					},
+				},
+				actions = {
+					harpoon_delete = function(picker, item)
+						local to_remove = item or picker:selected()
+						if to_remove and to_remove.idx then
+							harpoon:list():remove_at(to_remove.idx)
+							picker:find({ refresh = true }) -- Refresh picker
+						end
+					end,
+				},
+			})
 		end
 
+		-- Define keybindings
 		local keys = {
 			{
 				"<leader>he",
 				function()
-					toggle_telescope(harpoon:list())
+					harpoon_snacks_picker()
 				end,
-				{ desc = "Open Harpoon Window" },
+				desc = "Open Harpoon Window",
 			},
 			{
 				"<leader>ha",
 				function()
 					harpoon:list():add()
 				end,
-				{ desc = "Harpoon Mark" },
+				desc = "Harpoon Mark",
 			},
 			{
 				"<leader>hr",
 				function()
 					harpoon:list():remove()
 				end,
-				{ desc = "Harpoon Unmark" },
+				desc = "Harpoon Unmark",
 			},
-
-			-- Toggle previous & next buffers stored within Harpoon list
 			{
 				"<M-,>",
 				function()
 					harpoon:list():prev()
 				end,
-				{ desc = "Previous Harpoon Mark" },
+				desc = "Previous Harpoon Mark",
 			},
 			{
 				"<M-.>",
 				function()
 					harpoon:list():next()
 				end,
-				{ desc = "Next Harpoon Mark" },
+				desc = "Next Harpoon Mark",
 			},
 		}
 
+		-- Add number keybindings (1-9)
 		for i = 1, 9 do
 			table.insert(keys, {
 				"<leader>" .. i,
@@ -74,6 +89,10 @@ return {
 				desc = "Harpoon to File " .. i,
 			})
 		end
-		return keys
+
+		-- Register keybindings
+		for _, key in ipairs(keys) do
+			vim.keymap.set("n", key[1], key[2], { desc = key.desc })
+		end
 	end,
 }
