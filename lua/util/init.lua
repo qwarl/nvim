@@ -7,8 +7,7 @@ function M.exists_in_config(path)
 end
 
 function M.is_win()
-  -- return vim.uv.os.name().sysname:find("Windows") ~= nil
-  return vim.loop.os_uname().sysname:find("Windows") ~= nil
+	return vim.loop.os_uname().sysname:find("Windows") ~= nil
 end
 
 return M
