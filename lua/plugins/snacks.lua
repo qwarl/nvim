@@ -70,7 +70,11 @@ return {
 			},
 		},
 		picker = {
-			enabled = true,
+			sources = {
+        files = {
+          hidden = true,
+        },
+      },
 		},
 	},
 	keys = {
