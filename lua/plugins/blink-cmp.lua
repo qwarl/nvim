@@ -2,13 +2,14 @@ return {
 	{
 		"t3ntxcl3s/ecolog.nvim",
 		keys = {
-			{ '<leader>el', '<Cmd>EcologShelterLinePeek<cr>', desc = 'Ecolog peek line' },
-      { '<leader>eh', '<Cmd>EcologShellToggle<cr>', desc = 'Toggle shell variables' },
-      { '<leader>ei', '<Cmd>EcologInterpolationToggle<cr>', desc = 'Toggle shell variables' },
-      { '<leader>ge', '<cmd>EcologGoto<cr>', desc = 'Go to env file' },
-      { '<leader>ec', '<cmd>EcologSnacks<cr>', desc = 'Open a picker' },
-      { '<leader>eS', '<cmd>EcologSelect<cr>', desc = 'Switch env file' },
-      { '<leader>es', '<cmd>EcologShelterToggle<cr>', desc = 'Ecolog shelter toggle' },		},
+			{ "<leader>el", "<Cmd>EcologShelterLinePeek<cr>", desc = "Ecolog peek line" },
+			{ "<leader>eh", "<Cmd>EcologShellToggle<cr>", desc = "Toggle shell variables" },
+			{ "<leader>ei", "<Cmd>EcologInterpolationToggle<cr>", desc = "Toggle shell variables" },
+			{ "<leader>ge", "<cmd>EcologGoto<cr>", desc = "Go to env file" },
+			{ "<leader>ec", "<cmd>EcologSnacks<cr>", desc = "Open a picker" },
+			{ "<leader>eS", "<cmd>EcologSelect<cr>", desc = "Switch env file" },
+			{ "<leader>es", "<cmd>EcologShelterToggle<cr>", desc = "Ecolog shelter toggle" },
+		},
 		lazy = false,
 		config = function()
 			require("ecolog").setup({
@@ -81,6 +82,8 @@ return {
 			},
 			"saghen/blink.compat",
 			"t3ntxcl3s/ecolog.nvim",
+			"hrsh7th/cmp-calc",
+			"mini.icons", -- Dependency cho mini.icons
 		},
 		version = "1.*",
 		opts = {
@@ -139,7 +142,27 @@ return {
 					draw = {
 						columns = {
 							{ "label", "label_description", gap = 1 },
-							{ "kind_icon", "kind" },
+							{ "kind_icon", "kind", gap = 1 },
+						},
+						components = {
+							kind_icon = {
+								text = function(ctx)
+									local kind_icon, _, _ = require("mini.icons").get("lsp", ctx.kind)
+									return kind_icon
+								end,
+								-- (optional) use highlights from mini.icons
+								highlight = function(ctx)
+									local _, hl, _ = require("mini.icons").get("lsp", ctx.kind)
+									return hl
+								end,
+							},
+							kind = {
+								-- (optional) use highlights from mini.icons
+								highlight = function(ctx)
+									local _, hl, _ = require("mini.icons").get("lsp", ctx.kind)
+									return hl
+								end,
+							},
 						},
 						treesitter = { "lsp" },
 					},
@@ -159,6 +182,7 @@ return {
 					"buffer",
 					"copilot",
 					"ecolog",
+					"calc",
 				},
 				providers = {
 					copilot = {
@@ -175,10 +199,14 @@ return {
 						name = "ecolog",
 						module = "ecolog.integrations.cmp.blink_cmp",
 					},
+					calc = {
+						name = "calc",
+						module = "blink.compat.source",
+					},
 					path = {
 						opts = {
 							get_cwd = function(_)
-								return vim.fn.get_cwd()
+								return vim.fn.getcwd()
 							end,
 						},
 					},
