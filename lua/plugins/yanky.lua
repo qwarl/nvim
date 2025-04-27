@@ -1,12 +1,17 @@
 return {
 	"gbprod/yanky.nvim",
+	dependencies = {
+		"folke/snacks.nvim",
+	},
 	desc = "Better Yank/Paste",
 	opts = {},
 	keys = {
 		{
 			"<leader>p",
 			function()
-				require("telescope").extensions.yank_history.yank_history({})
+				-- require("telescope").extensions.yank_history.yank_history({})
+        -- vim.cmd([[YankyRingHistory]])
+        Snacks.picker.yanky()
 			end,
 			desc = "Open Yank History",
 		},
