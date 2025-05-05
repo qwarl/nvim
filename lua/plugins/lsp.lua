@@ -238,18 +238,8 @@ return {
       pyright = {},
       rust_analyzer = {},
       vtsls = {
-        settings = {
-          complete_function_calls = true,
-          vtsls = {
-            enableMoveToFileCodeAction = true,
-            autoUseWorkspaceTsdk = true,
-            experimental = {
-              completion = {
-                enableServerSideFuzzyMatch = true,
-              },
-            },
-          },
-          typescript = {
+        settings = (function()
+          local ts_settings = {
             updateImportsOnFileMove = { enabled = "always" },
             suggest = {
               completeFunctionCalls = true,
@@ -262,8 +252,23 @@ return {
               propertyDeclarationTypes = { enabled = true },
               variableTypes = { enabled = true },
             },
-          },
-        },
+          }
+
+          return {
+            complete_function_calls = true,
+            vtsls = {
+              enableMoveToFileCodeAction = true,
+              autoUseWorkspaceTsdk = true,
+              experimental = {
+                completion = {
+                  enableServerSideFuzzyMatch = true,
+                },
+              },
+            },
+            typescript = ts_settings,
+            javascript = vim.tbl_deep_extend("force", {}, ts_settings),
+          }
+        end)(),
       },
       marksman = {},
       jsonls = {
