@@ -4,10 +4,10 @@ return {
   -- Main LSP Configuration
   "neovim/nvim-lspconfig",
   dependencies = {
-    { "williamboman/mason.nvim", config = true },
-    "williamboman/mason-lspconfig.nvim",
+    { "mason-org/mason.nvim", config = true },
+    "mason-org/mason-lspconfig.nvim",
     "WhoIsSethDaniel/mason-tool-installer.nvim",
-    { "j-hui/fidget.nvim",       opts = {} },
+    {"j-hui/fidget.nvim", opts = {}},
     "saghen/blink.cmp",
   },
   config = function()
