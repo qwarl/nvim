@@ -5,7 +5,6 @@ local ui = require("util.ui")
 map({ "i", "x", "n", "s" }, "<C-s>", "<cmd>w<cr><esc>", { desc = "Save File" })
 
 -- exit insert or visual or terminal mode with jk
-map({ "i", "v", "t" }, "77", "<esc>", { desc = "Enter Normal Mode" })
 map({ "i", "v", "t" }, "<A-m>", "<esc>", { desc = "Enter Normal Mode" })
 
 -- select all text with ctrl a

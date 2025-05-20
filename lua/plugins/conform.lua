@@ -6,18 +6,19 @@ return {
 		local conform = require("conform")
 		conform.setup({
 			formatters_by_ft = {
-				javascript = { "prettier" },
-				typescript = { "prettier" },
-				javascriptreact = { "prettier" },
-				typescriptreact = { "prettier" },
 				css = { "prettier" },
 				html = { "prettier" },
+				javascript = { "prettier" },
+				javascriptreact = { "prettier" },
 				json = { "prettier" },
-				yaml = { "prettier" },
-				markdown = { "prettier" },
 				lua = { "stylua" },
-				toml = { "taplo" },
+				markdown = { "prettier" },
+				python = { "black", "isort", },
 				sh = { "shfmt" },
+				toml = { "taplo" },
+				typescript = { "prettier" },
+				typescriptreact = { "prettier" },
+				yaml = { "prettier" },
 			},
 			format_on_save = function(bufnr)
 				-- Check if global or buffer-local variable enables autoformat

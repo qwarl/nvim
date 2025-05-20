@@ -5,12 +5,12 @@ return {
 		local lint = require("lint")
 		lint.linters_by_ft = {
 			javascript = { "eslint_d" },
-			typescript = { "eslint_d" },
 			javascriptreact = { "eslint_d" },
-			typscriptreact = { "eslint_d" },
-			python = { "pylint" },
-			sh = { "shellcheck" },
 			markdown = { "markdownlint-cli2" },
+      python = { "pylint" },
+      sh = { "shellcheck" },
+      typescript = { "eslint_d" },
+      typscriptreact = { "eslint_d" },
 		}
 
 		lint.linters.eslint_d = require("lint.util").wrap(lint.linters.eslint_d, function(diagnostic)

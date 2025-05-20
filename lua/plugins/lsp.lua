@@ -297,6 +297,7 @@ return {
     vim.list_extend(ensure_installed, {
       "black",
       "eslint_d",
+      "isort",
       "markdownlint-cli2",
       "markdown-toc",
       "prettier",
