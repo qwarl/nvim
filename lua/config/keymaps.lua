@@ -107,3 +107,7 @@ map({ "n", "v" }, "<leader>ct", "<cmd>terminal<cr>", { desc = "New Terminal" })
 -- undo and redo in insert mode
 map("i", "<a-z>", "<esc>ua", { desc = "Undo when in insert mode"})
 map("i", "<a-y>", "<esc><c-r>a", { desc = "Redo when in insert mode"})
+
+-- add "," or ";" at the end of line
+map("n", "<leader>a,", "mzA,<esc>`z:delmarks z <cr>", { desc = "Add comma to end of line" })
+map("n", "<leader>a;", "mzA;<Esc>`z:delmarks z<cr>", { desc = "Add semicolon to end of line" })
