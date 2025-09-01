@@ -13,6 +13,7 @@ return {
 				json = { "prettier" },
 				lua = { "stylua" },
 				markdown = { "prettier" },
+				nix = { "nixfmt" },
 				python = { "black", "isort", },
 				sh = { "shfmt" },
 				toml = { "taplo" },

@@ -5,6 +5,7 @@ return {
 		"nvim-treesitter/nvim-treesitter",
 		build = ":TSUpdate",
 		cmd = { "TSUpdateSync", "TSUpdate", "TSInstall" },
+    dependencies = { "OXY2DEV/markview.nvim"},
 		opts = {
 			ensure_installed = {
 				"bash",
@@ -26,6 +27,7 @@ return {
 				"luap",
 				"markdown",
 				"markdown_inline",
+				"nix",
 				"printf",
 				"python",
 				"query",
