@@ -31,7 +31,7 @@ return {
             { action = ":ene | startinsert", desc = " New File", icon = " ", key = "n" },
             {
               action = ":lua Snacks.dashboard.pick('live_grep')",
-              desc = " Text Find",
+              desc = " Text Search",
               icon = "󱎸 ",
               key = "t",
             },
