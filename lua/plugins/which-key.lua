@@ -3,21 +3,20 @@ return {
   event = "VeryLazy",
   opts_extend = { "spec" },
   opts = {
-    defaults = {},
     spec = {
       {
         mode = { "n", "v" },
-        { "<leader>a", group = "add new line", icon = { icon = " ", color = "cyan"}},
+        { "<leader>a", group = "add new line", icon = { icon = " ", color = "cyan" } },
         { "<leader><tab>", group = "tabs" },
         { "<leader>c", group = "code" },
-        { "<leader>e", group = "file tree", icon = { icon = "󰙅 ", color = "cyan"}},
-        { "<leader>i", group = "image", icon = { icon = " ", color = "cyan"}},
+        { "<leader>e", group = "file tree", icon = { icon = "󰙅 ", color = "cyan" } },
+        { "<leader>i", group = "image", icon = { icon = " ", color = "cyan" } },
         { "<leader>f", group = "file/find" },
         { "<leader>g", group = "git" },
         { "<leader>h", group = "harpoon" },
         { "<leader>gh", group = "hunks" },
         { "<leader>q", group = "quit/session" },
-        { "<leader>R", "", group = "rest", icon = { icon = "󱂛 ", color = "cyan" } },
+        { "<leader>R", group = "rest", icon = { icon = "󱂛 ", color = "cyan" } },
         { "<leader>s", group = "search" },
         { "<leader>t", group = "toggle", icon = { icon = " ", color = "cyan" } },
         { "<leader>u", group = "ui", icon = { icon = "󰙵 ", color = "cyan" } },
@@ -63,11 +62,4 @@ return {
       desc = "Window Hydra Mode (which-key)",
     },
   },
-  config = function(_, opts)
-    local wk = require("which-key")
-    wk.setup(opts)
-    if not vim.tbl_isempty(opts.defaults) then
-      wk.register(opts.spec)
-    end
-  end,
 }
