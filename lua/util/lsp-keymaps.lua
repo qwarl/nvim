@@ -73,7 +73,7 @@ function M.get_clients(opts)
     if opts and opts.method then
       ---@param client vim.lsp.Client
       ret = vim.tbl_filter(function(client)
-        return client.supports_method(opts.method, { bufnr = opts.bufnr })
+        return client:supports_method(opts.method, { bufnr = opts.bufnr })
       end, ret)
     end
   end
@@ -92,7 +92,7 @@ function M.has(buffer, method)
   method = method:find("/") and method or "textDocument/" .. method
   local clients = M.get_clients({ bufnr = buffer })
   for _, client in ipairs(clients) do
-    if client.supports_method(method) then
+    if client:supports_method(method) then
       return true
     end
   end
