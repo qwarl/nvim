@@ -29,6 +29,10 @@ opt.tabstop = 2 -- number of spaces tabs count for
 opt.termguicolors = true -- true color support
 opt.wrap = true -- enable line wrapping
 
+opt.foldlevel = 99
+opt.foldlevelstart = 99
+opt.foldenable = true
+
 -- change diagnostic symbols
 vim.fn.sign_define("DiagnosticSignError", { text = " ", texthl = "DiagnosticSignError" })
 vim.fn.sign_define("DiagnosticSignWarn", { text = " ", texthl = "DiagnosticSignWarn" })
