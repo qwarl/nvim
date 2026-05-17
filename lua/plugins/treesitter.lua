@@ -44,6 +44,7 @@ return {
 				"tsx",
 				"tsv",
 				"typescript",
+        "v",
 				"vim",
 				"vimdoc",
 				"xml",

@@ -238,6 +238,7 @@ return {
       emmet_ls = {},
       pyright = {},
       rust_analyzer = {},
+      v_analyzer = {},
       vtsls = {
         settings = (function()
           local ts_settings = {
