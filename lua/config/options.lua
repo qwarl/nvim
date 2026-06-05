@@ -29,10 +29,6 @@ opt.tabstop = 2 -- number of spaces tabs count for
 opt.termguicolors = true -- true color support
 opt.wrap = true -- enable line wrapping
 
-opt.keymap = "workman"
-opt.iminsert = 1 -- default to Workman, use <C-^> in Insert mode to switch to QWERTY
-opt.imsearch = -1 -- use iminsert value for searching
-
 opt.foldlevel = 99
 opt.foldlevelstart = 99
 opt.foldenable = true
