@@ -65,6 +65,28 @@ map("n", "[w", diagnostic_goto(false, "WARN"), { desc = "Prev Warning" })
 
 -- quit
 map("n", "<leader>qq", "<cmd>qa<cr>", { desc = "Quit All" })
+map("n", "<leader>qs", function()
+	local new_name = vim.fn.input("Save as: ", vim.fn.expand("%"), "file")
+	if new_name == "" then
+		return
+	end
+
+	local dir = vim.fn.fnamemodify(new_name, ":h")
+
+	-- nếu thư mục chưa tồn tại
+	if vim.fn.isdirectory(dir) == 0 then
+		local choice = vim.fn.confirm("Directory does not exist:\n" .. dir .. "\nCreate it?", "&Yes\n&No", 2)
+
+		if choice ~= 1 then
+			print("Cancelled")
+			return
+		end
+
+		vim.fn.mkdir(dir, "p")
+	end
+
+	vim.cmd("saveas " .. vim.fn.fnameescape(new_name))
+end, { desc = "Save As (confirm mkdir)" })
 
 -- highlights under cursor
 map("n", "<leader>ui", vim.show_pos, { desc = "Inspect Pos" })
@@ -100,12 +122,17 @@ map({ "n", "v" }, "<leader>ad", "o<esc>k", { desc = "Add New Line Below (Cursor 
 -- exit insert mode in terminal
 map("t", "<A-m>", "<C-\\><C-n>", { desc = "Exit insert mode in terminal" })
 map("t", "<esc>", "<C-\\><C-n>", { desc = "Exit insert mode in terminal" })
-map({ "n", "v" }, "<leader>ct", "<cmd>terminal<cr>", { desc = "New Terminal" })
 
 -- undo and redo in insert mode
-map("i", "<a-z>", "<esc>ua", { desc = "Undo when in insert mode"})
-map("i", "<a-y>", "<esc><c-r>a", { desc = "Redo when in insert mode"})
+map("i", "<a-z>", "<esc>ua", { desc = "Undo when in insert mode" })
+map("i", "<a-y>", "<esc><c-r>a", { desc = "Redo when in insert mode" })
 
 -- add "," or ";" at the end of line
 map("n", "<leader>a,", "mzA,<esc>`z:delmarks z <cr>", { desc = "Add comma to end of line" })
 map("n", "<leader>a;", "mzA;<Esc>`z:delmarks z<cr>", { desc = "Add semicolon to end of line" })
+
+-- move cursor in insert mode
+map("i", "<A-h>", "<C-g>U<Left>", { desc = "Move left in insert mode" })
+map("i", "<A-j>", "<C-g>U<Down>", { desc = "Move down in insert mode" })
+map("i", "<A-k>", "<C-g>U<Up>", { desc = "Move up in insert mode" })
+map("i", "<A-l>", "<C-g>U<Right>", { desc = "Move right in insert mode" })
