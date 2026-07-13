@@ -1,13 +1,12 @@
 local is_path = require("util")
 
 return {
-  -- Main LSP Configuration
   "neovim/nvim-lspconfig",
   dependencies = {
     { "mason-org/mason.nvim", config = true },
-    "mason-org/mason-lspconfig.nvim",
     "WhoIsSethDaniel/mason-tool-installer.nvim",
-    {"j-hui/fidget.nvim", opts = {}},
+    { "b0o/schemastore.nvim" },
+    { "j-hui/fidget.nvim", opts = {} },
     "saghen/blink.cmp",
   },
   config = function()
@@ -19,13 +18,10 @@ return {
           vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = desc })
         end
 
-        -- get keymaps
         local keys = require("util.lsp-keymaps").get()
 
         for _, key in ipairs(keys) do
-          -- Kiểm tra `has` (nếu có)
           if not key.has or require("util.lsp-keymaps").has(event.buf, key.has) then
-            -- Kiểm tra `cond` (nếu có)
             if not key.cond or key.cond() then
               local mode = key.mode or "n"
               local opts = { buffer = event.buf, desc = key.desc }
@@ -37,9 +33,7 @@ return {
 
         local client = vim.lsp.get_client_by_id(event.data.client_id)
 
-        -- Add vtsls special command
         if client and client.name == "vtsls" then
-          -- keymaps for ts, js code
           map("gD", function()
             local params = vim.lsp.util.make_position_params()
             vim.lsp.buf_request(0, "workspace/executeCommand", {
@@ -52,7 +46,6 @@ return {
             end)
           end, "Goto Source Definition")
 
-          -- Find All File References - TypeScript specific
           map("gR", function()
             vim.lsp.buf_request(0, "workspace/executeCommand", {
               command = "typescript.findAllFileReferences",
@@ -65,7 +58,6 @@ return {
             end)
           end, "File References")
 
-          -- Organize Imports
           map("<leader>co", function()
             vim.lsp.buf.code_action({
               apply = true,
@@ -76,7 +68,6 @@ return {
             })
           end, "Organize Imports")
 
-          -- Add Missing Imports
           map("<leader>cM", function()
             vim.lsp.buf.code_action({
               apply = true,
@@ -87,7 +78,6 @@ return {
             })
           end, "Add Missing Imports")
 
-          -- Remove Unused Imports
           map("<leader>cu", function()
             vim.lsp.buf.code_action({
               apply = true,
@@ -98,7 +88,6 @@ return {
             })
           end, "Remove Unused Imports")
 
-          -- Fix All Diagnostics
           map("<leader>cD", function()
             vim.lsp.buf.code_action({
               apply = true,
@@ -109,13 +98,11 @@ return {
             })
           end, "Fix All Diagnostics")
 
-          -- Select TypeScript Version
           map("<leader>cV", function()
             vim.lsp.buf_request(0, "workspace/executeCommand", {
               command = "typescript.selectTypeScriptVersion"
             })
           end, "Select TS Workspace Version")
-
 
           client.commands["_typescript.moveToFileRefactoring"] = function(command, ctx)
             local action, uri, range = unpack(command.arguments)
@@ -238,7 +225,6 @@ return {
       emmet_ls = {},
       pyright = {},
       rust_analyzer = {},
-      v_analyzer = {},
       vtsls = {
         settings = (function()
           local ts_settings = {
@@ -272,31 +258,56 @@ return {
           }
         end)(),
       },
-      marksman = {},
       jsonls = {
-        on_new_config = function(new_config)
-          new_config.settings.json.schemas = new_config.settings.json.schemas or {}
-          vim.list_extend(new_config.settings.json.schemas, require("schemastore").json.schemas())
-        end,
         settings = {
           json = {
             format = { enable = true },
             validate = { enable = true },
+            schemas = require("schemastore").json.schemas(),
           },
         },
       },
       taplo = {},
       yamlls = {},
+      v_analyzer = {
+        cmd = { "/mnt/common/lab/v-analyzer/bin/v-analyzer" },
+      },
     }
 
     if is_path.exists_in_config("hypr") then
       servers.hyprls = {}
     end
 
+    for server_name, config in pairs(servers) do
+      config = vim.tbl_deep_extend("force", { capabilities = capabilities }, config)
+      vim.lsp.config(server_name, config)
+      vim.lsp.enable(server_name)
+    end
+
     require("mason").setup()
 
-    local ensure_installed = vim.tbl_keys(servers or {})
-    vim.list_extend(ensure_installed, {
+    local mason_packages = {
+      "bash-language-server",
+      "texlab",
+      "lua-language-server",
+      "html-lsp",
+      "css-lsp",
+      "nil",
+      "tailwindcss-language-server",
+      "emmet-ls",
+      "pyright",
+      "rust-analyzer",
+      "vtsls",
+      "json-lsp",
+      "taplo",
+      "yaml-language-server",
+    }
+
+    if is_path.exists_in_config("hypr") then
+      table.insert(mason_packages, "hyprls")
+    end
+
+    vim.list_extend(mason_packages, {
       "black",
       "eslint_d",
       "isort",
@@ -309,16 +320,7 @@ return {
       "shfmt",
       "stylua",
     })
-    require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 
-    require("mason-lspconfig").setup({
-      handlers = {
-        function(server_name)
-          local server = servers[server_name] or {}
-          server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
-          require("lspconfig")[server_name].setup(server)
-        end,
-      },
-    })
+    require("mason-tool-installer").setup({ ensure_installed = mason_packages })
   end,
 }
