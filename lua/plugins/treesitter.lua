@@ -44,7 +44,7 @@ return {
 				"tsx",
 				"tsv",
 				"typescript",
-        "v",
+				"v",
 				"vim",
 				"vimdoc",
 				"xml",
@@ -77,13 +77,6 @@ return {
 					enable_close_on_slash = false, -- Auto close on trailing </
 				},
 			})
-		end,
-	},
-	{
-		"nvim-treesitter/nvim-treesitter-context",
-		config = function()
-			require("treesitter-context").setup({})
-			vim.keymap.set("n", "<leader>tc", "<cmd>TSContextToggle toggle<CR>", { desc = "Toggle Treesitter Context" })
 		end,
 	},
 	{
