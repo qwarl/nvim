@@ -22,6 +22,7 @@ return {
 				"css",
 				"diff",
 				"git_config",
+        "gitignore",
 				"html",
 				"http",
 				"javascript",
